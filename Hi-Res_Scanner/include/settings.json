@@ -1,0 +1,11 @@
+{
+    "width": "3",
+    "height": "2",
+    "exposure_bw_length": "10000",
+    "exposure_r_length": "3200",
+    "exposure_g_length": "5800",
+    "exposure_b_length": "7600",
+    "gain": "10",
+    "led_amount": "3",
+    "com_port": "/dev/ttyUSB0"
+}
