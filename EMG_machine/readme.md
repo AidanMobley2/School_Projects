@@ -14,12 +14,18 @@ This project's purpose was to create a circuit to measure and amplify electromyo
 
 ## How it was made
 
+### Design and production of the PCB
+
 First, we designed a circuit to filter and amplify muscle signals. This circuit was tested on a breadboard before making a PCB. The circuit consisted of an AD623 instrumentation amplifier with a gain of 200 V/V, a passive first-order bandpass filter with corners of 20 Hz and 110 Hz, an LF411 op-amp with a gain of 10 V/V, and an envelope detector. The image below shows the circuit diagram.
 
-
+![Circuit Diagram](EMG_circuit_diagram.png)
 
 We then used KiCad to design a custom PCB to hold all of our EMG circuit components and the ESP32 that would sample and process the signal. The image below shows the PCB layout.
 
+![PCB](EMG_PCB.png)
 
+We imported the files from KiCad into FlatCam to generate the Gcode for the CNC router to print the PCB. We used the CNC router to print the PCB onto a copper plate. Once the PCB was populated, it was tested using conductivity tests to try to find any shorts and remove them. The circuit was then tested using an oscilloscope to make sure everything still worked.
 
-We imported the files from KiCad into FlatCam to generate the Gcode for a CNC router to print the PCB. We used the CNC router to print the PCB onto a copper plate. 
+### Creating the code
+
+The Arduino IDE was used to program the ESP32. First, to get a consistent sampling period, a timer interrupt written for ESP32s was set up to sample at 10 ms. A sampling period of 2 ms was attempted at first, but the microcontroller we used was unable to properly apply the filter quickly enough. Next, using MATLAB, a digital bandpass Chebyshev filter was designed to be implemented in Arduino. The filter was applied inside of the interrupt service handler function and the filtered output was stored as a global double. In the loop function, an average of the last 50 data points was calculated and if the current sample value is over double the average, the prosthetic hand would actuate. 
