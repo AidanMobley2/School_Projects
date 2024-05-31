@@ -18,11 +18,15 @@ This project's purpose was to create a circuit to measure and amplify electromyo
 
 First, we designed a circuit to filter and amplify muscle signals. This circuit was tested on a breadboard before making a PCB. The circuit consisted of an AD623 instrumentation amplifier with a gain of 200 V/V, a passive first-order bandpass filter with corners of 20 Hz and 110 Hz, an LF411 op-amp with a gain of 10 V/V, and an envelope detector. The image below shows the circuit diagram.
 
-![Circuit Diagram](EMG_circuit_diagram.png)
+<p align="center">
+    <img src="EMG_circuit_diagram.png" width="600" title="EMG circuit diagram">
+</p>
 
 We then used KiCad to design a custom PCB to hold all of our EMG circuit components and the ESP32 that would sample and process the signal. The image below shows the PCB layout.
 
-![PCB](EMG_PCB.png)
+<p align="center">
+    <img src="EMG_PCB.png" title="EMG PCB">
+</p>
 
 We imported the files from KiCad into FlatCam to generate the Gcode for the CNC router to print the PCB. We used the CNC router to print the PCB onto a copper plate. Once the PCB was populated, it was tested using conductivity tests to try to find any shorts and remove them. The circuit was then tested using an oscilloscope to make sure everything still worked.
 
