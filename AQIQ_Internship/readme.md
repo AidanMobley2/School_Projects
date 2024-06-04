@@ -5,7 +5,7 @@
 I worked with the Air Quality InQuiry (AQIQ) research group at the University of Colorado Boulder during the summer of 2023 through the CU Boulder SPUR program. AQIQ is a group of engineering researchers and students who work on creating and using a versatile air quality measurement pod. The pod is used by the researchers to help them conduct their graduate research. The engineering students design, assemble, and troubleshoot the old and new versions of the pods. The following picture is an open pod.
 
 <p align="center">
-    <img src="pod.JPG" width="500" title="Open Pod">
+    <img src="Images/pod.JPG" width="500" title="Open Pod">
 </p>
 
 Another aspect of the AQIQ group is a public outreach program where some students and researchers travel to a rural school and teach them about air quality, the work AQIQ does, and why it is important. They then split the students into groups, lead the students to conduct experiments of their own related to air quality, take notes, and discuss their findings. The students would then present their findings to the rest of the students, sometimes with a little help from the AQIQ student who led their group.
@@ -25,13 +25,13 @@ I worked both with the engineering students to build and troubleshoot the Rev-4 
 When we started testing, we noticed something was wrong very quickly since several hours after uploading the code and letting it run, the Arduino would freeze and all activity would stop. This was a big problem because, in the field, they would have to run constantly for weeks or months at a time. After weeks of troubleshooting, the issue was narrowed down to the CO2 sensors. The shiny golden sensor in the following picture is the CO2 sensor.
  
 <p align="center">
-    <img src="board_with_CO2.JPG" width="600" title="Board with CO2">
+    <img src="Images/board_with_CO2.JPG" width="600" title="Board with CO2">
 </p>
  
 After looking at the PCB layout and schematic, I realized that one of the power pins on the CO2 sensor did not have filter capacitors to keep the power as constant as possible. I tried soldering a capacitor between the power pin and the closest ground pin. After soldering the capacitor, the time between starting the code and the Arduino freezing was substantially increased and, on some boards, the Arduino never froze during our testing. Below is a picture of the capacitor fix.
 
 <p align="center">
-    <img src="CO2_fix.JPG" width="600" title="CO2 Fix">
+    <img src="Images/CO2_fix.JPG" width="600" title="CO2 Fix">
 </p>
  
 However, since the problem was not completely fixed on all boards, a temporary software fix was necessary to allow the pods to collect data even after the Arduino freezes. I remembered that microcontrollers usually have a watchdog timer on completely separate hardware from the main processor which could help. I implemented the watchdog into the code on the longest timer possible. This caused the main processor to reset after it would freeze, allowing the pod to continue taking measurements for the duration of any tests it was a part of. 
@@ -41,7 +41,7 @@ However, since the problem was not completely fixed on all boards, a temporary s
 Since some of the researchers needed air pumps instead of fans, the power supply for the pumps needed to be tested. The volume of air over time needed to be controlled for the pump and this was done by using a PWM-controlled motor driver IC. When no load was connected, it would output the expected voltage. However, when I tested it with a pump, the voltage would drop to about 1 V. After looking at the schematic I realized that one of the resistors were the wrong value and I soldered on the correct value. This helped a little but still did not fix it. After looking over it with the engineer who designed the PCB, we realized that the schematic was wrong and another change needed to be made. We had to scratch out one of the traces and rewire it to the other side of a capacitor. In the following picture, the small black wire in the center is the rewired circuit and the resistor that is circled is the incorrect resistor.
 
 <p align="center">
-    <img src="power_supply_fix.JPG" width="600" title="Power supply fix">
+    <img src="Images/power_supply_fix.JPG" width="600" title="Power supply fix">
 </p>
 
 After applying these fixes, the air pump power supply worked as desired.
@@ -51,7 +51,7 @@ After applying these fixes, the air pump power supply worked as desired.
 A met station is a measurement tool that collects wind speed and wind direction data. It measures wind speed using magnets and reed switches to count how many times a propeller rotates in a set amount of time. This is implemented using a hardware interrupt in Arduino. However, I realized that it was attached to a pin that was not capable of performing hardware interrupts. I cut the trace to where it was incorrectly wired and rewired it to an available pin that could do hardware interrupts. This completely fixed the problem and allowed met station data to be properly recorded and stored. Below is a picture of the met station fix.
 
 <p align="center">
-    <img src="MET_fix.JPG" width="500" title="Met station fix">
+    <img src="Images/MET_fix.JPG" width="500" title="Met station fix">
 </p>
 
 ### Implemented a New Sensor
